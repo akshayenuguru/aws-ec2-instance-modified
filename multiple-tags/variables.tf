@@ -5,6 +5,7 @@ variable "aws_region" {
 }
 
 variable "aws_region_az" {
+  type        = list(string)
   description = "AWS region AZ"
   default     = "us-west-2b"
 }
