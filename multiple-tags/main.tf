@@ -29,11 +29,11 @@ resource "aws_instance" "ubuntu" {
     Name        = var.name
     env         = "qa"
     email       = var.email
-    project     = var.tag_project
-    team        = var.tag_team
-    owner       = var.tag_owner
+    project     = join(",", var.tag_project)
+    team        = join(",", var.tag_team)
+    owner       = join(",", var.tag_owner)
     cost_center = var.tag_cost_center
-    application = var.tag_application
+    application = join(",", var.tag_application)
   }
 
   volume_tags = {
