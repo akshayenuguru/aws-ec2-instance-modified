@@ -35,18 +35,21 @@ variable "email" {
 }
 
 variable "tag_project" {
+  type        = list(string)
   description = "Project tag for EC2 instances"
-  default     = "customer-takeda"
+  default     = ["customer-takeda"]
 }
 
 variable "tag_team" {
+  type        = list(string)
   description = "Team tag for EC2 instances"
-  default     = "qa-em"
+  default     = ["qa-em"]
 }
 
 variable "tag_owner" {
+  type        = list(string)
   description = "Owner tag for EC2 instances"
-  default     = "em-akshay"
+  default     = ["em-akshay"]
 }
 
 variable "tag_cost_center" {
@@ -55,6 +58,7 @@ variable "tag_cost_center" {
 }
 
 variable "tag_application" {
+  type        = list(string)
   description = "Application tag for EC2 instances"
-  default     = "customer-onboarding"
+  default     = ["customer-onboarding"]
 }
