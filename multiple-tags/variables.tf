@@ -1,4 +1,8 @@
-# variables.tf
+# Single variable containing 2 string values
+variable "app_details" {
+  type = list(string)
+}
+
 variable "aws_region" {
   description = "AWS region"
   default     = "us-west-2"
