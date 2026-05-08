@@ -1,4 +1,3 @@
-# main.tf
 terraform {
   required_version = ">= 0.14.0"
   required_providers {
@@ -10,8 +9,38 @@ terraform {
   backend "s3" {}
 }
 
+locals {
+  aws_region_value = can(tolist(var.aws_region))
+    ? tostring(tolist(var.aws_region)[0])
+    : tostring(var.aws_region)
+
+  aws_region_az_value = can(tolist(var.aws_region_az))
+    ? tostring(tolist(var.aws_region_az)[0])
+    : tostring(var.aws_region_az)
+
+  tag_project_values = can(tolist(var.tag_project))
+    ? [for v in tolist(var.tag_project) : tostring(v)]
+    : [tostring(var.tag_project)]
+
+  tag_team_values = can(tolist(var.tag_team))
+    ? [for v in tolist(var.tag_team) : tostring(v)]
+    : [tostring(var.tag_team)]
+
+  tag_owner_values = can(tolist(var.tag_owner))
+    ? [for v in tolist(var.tag_owner) : tostring(v)]
+    : [tostring(var.tag_owner)]
+
+  tag_application_values = can(tolist(var.tag_application))
+    ? [for v in tolist(var.tag_application) : tostring(v)]
+    : [tostring(var.tag_application)]
+
+  tag_cost_center_values = can(tolist(var.tag_cost_center))
+    ? [for v in tolist(var.tag_cost_center) : tostring(v)]
+    : [tostring(var.tag_cost_center)]
+}
+
 provider "aws" {
-  region = var.aws_region
+  region = local.aws_region_value
   default_tags {
     tags = {
       env   = "qa"
@@ -23,17 +52,17 @@ provider "aws" {
 resource "aws_instance" "ubuntu" {
   ami               = var.ami_id
   instance_type     = var.instance_type
-  availability_zone = var.aws_region_az
+  availability_zone = local.aws_region_az_value
 
   tags = {
     Name        = var.name
     env         = "qa"
     email       = var.email
-    project     = join(",", var.tag_project)
-    team        = join(",", var.tag_team)
-    owner       = join(",", var.tag_owner)
-    cost_center = var.tag_cost_center
-    application = join(",", var.tag_application)
+    project     = join(",", local.tag_project_values)
+    team        = join(",", local.tag_team_values)
+    owner       = join(",", local.tag_owner_values)
+    cost_center = join(",", local.tag_cost_center_values)
+    application = join(",", local.tag_application_values)
   }
 
   volume_tags = {
@@ -45,17 +74,17 @@ resource "aws_instance" "ubuntu" {
 resource "aws_instance" "ubuntu-1" {
   ami               = var.ami_id
   instance_type     = var.instance_type
-  availability_zone = var.aws_region_az
+  availability_zone = local.aws_region_az_value
 
   tags = {
     Name        = var.name1
     env         = "qa"
     email       = var.email
-    project     = join(",", var.tag_project)
-    team        = join(",", var.tag_team)
-    owner       = join(",", var.tag_owner)
-    cost_center = var.tag_cost_center
-    application = join(",", var.tag_application)
+    project     = join(",", local.tag_project_values)
+    team        = join(",", local.tag_team_values)
+    owner       = join(",", local.tag_owner_values)
+    cost_center = join(",", local.tag_cost_center_values)
+    application = join(",", local.tag_application_values)
   }
 
   volume_tags = {
