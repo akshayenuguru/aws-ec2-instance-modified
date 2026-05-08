@@ -72,5 +72,6 @@ resource "aws_s3_bucket" "simple_bucket" {
   tags = {
     Project     = var.app_details[0]
     Environment = var.app_details[1]
+    Location    = var.app_details[2]
   }
 }
