@@ -10,33 +10,14 @@ terraform {
 }
 
 locals {
-  aws_region_value = can(tolist(var.aws_region))
-    ? tostring(tolist(var.aws_region)[0])
-    : tostring(var.aws_region)
+  aws_region_value    = try(tostring(tolist(var.aws_region)[0]), tostring(var.aws_region))
+  aws_region_az_value = try(tostring(tolist(var.aws_region_az)[0]), tostring(var.aws_region_az))
 
-  aws_region_az_value = can(tolist(var.aws_region_az))
-    ? tostring(tolist(var.aws_region_az)[0])
-    : tostring(var.aws_region_az)
-
-  tag_project_values = can(tolist(var.tag_project))
-    ? [for v in tolist(var.tag_project) : tostring(v)]
-    : [tostring(var.tag_project)]
-
-  tag_team_values = can(tolist(var.tag_team))
-    ? [for v in tolist(var.tag_team) : tostring(v)]
-    : [tostring(var.tag_team)]
-
-  tag_owner_values = can(tolist(var.tag_owner))
-    ? [for v in tolist(var.tag_owner) : tostring(v)]
-    : [tostring(var.tag_owner)]
-
-  tag_application_values = can(tolist(var.tag_application))
-    ? [for v in tolist(var.tag_application) : tostring(v)]
-    : [tostring(var.tag_application)]
-
-  tag_cost_center_values = can(tolist(var.tag_cost_center))
-    ? [for v in tolist(var.tag_cost_center) : tostring(v)]
-    : [tostring(var.tag_cost_center)]
+  tag_project_values     = try([for v in tolist(var.tag_project) : tostring(v)], [tostring(var.tag_project)])
+  tag_team_values        = try([for v in tolist(var.tag_team) : tostring(v)], [tostring(var.tag_team)])
+  tag_owner_values       = try([for v in tolist(var.tag_owner) : tostring(v)], [tostring(var.tag_owner)])
+  tag_application_values = try([for v in tolist(var.tag_application) : tostring(v)], [tostring(var.tag_application)])
+  tag_cost_center_values = try([for v in tolist(var.tag_cost_center) : tostring(v)], [tostring(var.tag_cost_center)])
 }
 
 provider "aws" {
