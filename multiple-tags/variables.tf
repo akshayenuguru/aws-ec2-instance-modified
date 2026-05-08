@@ -1,15 +1,17 @@
-# Single variable containing 2 string values
+# Single variable containing 3 string values
 variable "app_details" {
   type = list(string)
 }
 
 variable "aws_region" {
-  description = "AWS region"
+  description = "AWS region (string or list from EM)"
+  type        = any
   default     = "us-west-2"
 }
 
 variable "aws_region_az" {
-  description = "AWS region AZ"
+  description = "AWS region AZ (string or list from EM)"
+  type        = any
   default     = "us-west-2b"
 }
 
@@ -39,30 +41,31 @@ variable "email" {
 }
 
 variable "tag_project" {
-  type        = list(string)
-  description = "Project tag for EC2 instances"
+  description = "Project tag for EC2 instances (string or list from EM)"
+  type        = any
   default     = ["customer-takeda"]
 }
 
 variable "tag_team" {
-  type        = list(string)
-  description = "Team tag for EC2 instances"
+  description = "Team tag for EC2 instances (string or list from EM)"
+  type        = any
   default     = ["qa-em"]
 }
 
 variable "tag_owner" {
-  type        = list(string)
-  description = "Owner tag for EC2 instances"
+  description = "Owner tag for EC2 instances (string or list from EM)"
+  type        = any
   default     = ["em-akshay"]
 }
 
 variable "tag_cost_center" {
-  description = "Cost center tag for EC2 instances"
+  description = "Cost center tag for EC2 instances (string or list from EM)"
+  type        = any
   default     = "cc-1001"
 }
 
 variable "tag_application" {
-  type        = list(string)
-  description = "Application tag for EC2 instances"
+  description = "Application tag for EC2 instances (string or list from EM)"
+  type        = any
   default     = ["customer-onboarding"]
 }
