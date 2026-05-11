@@ -69,3 +69,10 @@ variable "tag_application" {
   type        = any
   default     = ["customer-onboarding"]
 }
+
+#tag_key_value (restricted key values, JSON strings)
+variable "tag_akshay" {
+  description = "JSON object string(s) from UI; string or list(string) from EM"
+  type        = any
+  default     = "{}"
+}
