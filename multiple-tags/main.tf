@@ -1,3 +1,4 @@
+# main.tf
 terraform {
   required_version = ">= 0.14.0"
   required_providers {
@@ -18,6 +19,16 @@ locals {
   tag_owner_values       = try([for v in tolist(var.tag_owner) : tostring(v)], [tostring(var.tag_owner)])
   tag_application_values = try([for v in tolist(var.tag_application) : tostring(v)], [tostring(var.tag_application)])
   tag_cost_center_values = try([for v in tolist(var.tag_cost_center) : tostring(v)], [tostring(var.tag_cost_center)])
+
+  # NEW: decode JSON string(s) from tag_akshay → flat map → AWS string tags
+  tag_akshay_json_strings = try(
+    length(tolist(var.tag_akshay)) > 0 ? [for v in tolist(var.tag_akshay) : trimspace(tostring(v))] : [trimspace(tostring(var.tag_akshay))],
+    [trimspace(tostring(var.tag_akshay))]
+  )
+  tag_akshay_non_empty = [for s in local.tag_akshay_json_strings : s if s != "" && s != "{}"]
+  tag_akshay_maps      = length(local.tag_akshay_non_empty) > 0 ? [for s in local.tag_akshay_non_empty : jsondecode(s)] : []
+  tag_akshay_merged    = length(local.tag_akshay_maps) > 0 ? merge(local.tag_akshay_maps...) : {}
+  tag_akshay_aws       = { for k, v in local.tag_akshay_merged : k => tostring(v) }
 }
 
 provider "aws" {
@@ -35,16 +46,19 @@ resource "aws_instance" "ubuntu" {
   instance_type     = var.instance_type
   availability_zone = local.aws_region_az_value
 
-  tags = {
-    Name        = var.name
-    env         = "qa"
-    email       = var.email
-    project     = join(",", local.tag_project_values)
-    team        = join(",", local.tag_team_values)
-    owner       = join(",", local.tag_owner_values)
-    cost_center = join(",", local.tag_cost_center_values)
-    application = join(",", local.tag_application_values)
-  }
+  tags = merge(
+    {
+      Name        = var.name
+      env         = "qa"
+      email       = var.email
+      project     = join(",", local.tag_project_values)
+      team        = join(",", local.tag_team_values)
+      owner       = join(",", local.tag_owner_values)
+      cost_center = join(",", local.tag_cost_center_values)
+      application = join(",", local.tag_application_values)
+    },
+    local.tag_akshay_aws
+  )
 
   volume_tags = {
     env   = "qa"
@@ -57,16 +71,19 @@ resource "aws_instance" "ubuntu-1" {
   instance_type     = var.instance_type
   availability_zone = local.aws_region_az_value
 
-  tags = {
-    Name        = var.name1
-    env         = "qa"
-    email       = var.email
-    project     = join(",", local.tag_project_values)
-    team        = join(",", local.tag_team_values)
-    owner       = join(",", local.tag_owner_values)
-    cost_center = join(",", local.tag_cost_center_values)
-    application = join(",", local.tag_application_values)
-  }
+  tags = merge(
+    {
+      Name        = var.name1
+      env         = "qa"
+      email       = var.email
+      project     = join(",", local.tag_project_values)
+      team        = join(",", local.tag_team_values)
+      owner       = join(",", local.tag_owner_values)
+      cost_center = join(",", local.tag_cost_center_values)
+      application = join(",", local.tag_application_values)
+    },
+    local.tag_akshay_aws
+  )
 
   volume_tags = {
     env   = "qa"
