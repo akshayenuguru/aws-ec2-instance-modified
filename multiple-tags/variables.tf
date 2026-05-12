@@ -12,7 +12,7 @@ variable "aws_region" {
 variable "aws_region_az" {
   description = "AWS region AZ (string or list from EM)"
   type        = any
-  default     = "us-east-1a"
+  default     = "us-east-1b"
 }
 
 variable "ami_id" {
