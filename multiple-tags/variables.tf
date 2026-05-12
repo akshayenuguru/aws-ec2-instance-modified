@@ -6,13 +6,13 @@ variable "app_details" {
 variable "aws_region" {
   description = "AWS region (string or list from EM)"
   type        = any
-  default     = "us-west-2"
+  default     = "us-east-1"
 }
 
 variable "aws_region_az" {
   description = "AWS region AZ (string or list from EM)"
   type        = any
-  default     = "us-west-2b"
+  default     = "us-east-1a"
 }
 
 variable "ami_id" {
