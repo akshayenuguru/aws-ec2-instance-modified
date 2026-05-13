@@ -1,6 +1,6 @@
 variable "app_details" {
   type        = string
-  description = "JSON array of 3 strings, e.g. [\"takedaproject\",\"envmgr\",\"india\"]"
+  description = "JSON array as a string: \"[\\\"a\\\",\\\"b\\\",\\\"c\\\"]\""
   default     = "[\"takedaproject\",\"envmgr\",\"india\"]"
 }
 
@@ -39,10 +39,10 @@ variable "email" {
   default = "akshay@rafay.co"
 }
 
-# UI: multi → JSON array string '["v1","v2"]'; single can stay plain scalar string
 variable "tag_project" {
-  type    = string
-  default = "[\"customer-takeda\"]"
+  type        = string
+  description = "Plain string OR JSON array string"
+  default     = "[\"customer-takeda\"]"
 }
 
 variable "tag_team" {
@@ -67,6 +67,6 @@ variable "tag_application" {
 
 variable "tag_akshay" {
   type        = string
-  description = "JSON: {}, object, or array of objects"
+  description = "JSON as a string: {}, {...}, or [{...},{...}]"
   default     = "{}"
 }
