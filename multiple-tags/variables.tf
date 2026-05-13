@@ -1,6 +1,6 @@
 # Single variable containing 3 string values
 variable "app_details" {
-  type = list(string)
+  type = list(string)
 }
 
 variable "aws_region" {
