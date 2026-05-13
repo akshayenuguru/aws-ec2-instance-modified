@@ -1,3 +1,8 @@
+# Single variable containing 3 string values
+variable "app_details" {
+  type = list(string)
+}
+
 variable "aws_region" {
   description = "AWS region (string or list from EM)"
   type        = any
