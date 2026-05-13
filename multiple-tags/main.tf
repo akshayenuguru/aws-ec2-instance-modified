@@ -103,13 +103,3 @@ resource "aws_instance" "ubuntu-1" {
 
   depends_on = [aws_instance.ubuntu]
 }
-
-resource "aws_s3_bucket" "simple_bucket" {
-  bucket = "${var.app_details[0]}-${var.app_details[1]}"
-
-  tags = {
-    Project     = var.app_details[0]
-    Environment = var.app_details[1]
-    Location    = var.app_details[2]
-  }
-}
