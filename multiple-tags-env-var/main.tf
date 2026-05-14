@@ -13,8 +13,8 @@ locals {
   aws_region_value    = trimspace(var.aws_region)
   aws_region_az_value = trimspace(var.aws_region_az)
 
-  # app_details: valueType=text, multiSelect → arrives as JSON string → jsondecode needed
-  app_details_list = jsondecode(var.app_details)
+  # app_details is now a native list — no jsondecode needed
+  app_details_list = var.app_details
 
   # tag_*: envVars, single value, plain string → use directly
   tag_project_values     = [trimspace(var.tag_project)]
