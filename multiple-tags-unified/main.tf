@@ -26,7 +26,6 @@ locals {
   environment_type_map = {
     prod = "production"
     stg  = "staging"
-    dev  = "development"
     tb   = "testbed"
   }
 
