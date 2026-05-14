@@ -15,10 +15,10 @@ locals {
 
   app_details_list = var.app_details
 
-  tag_project_values     = [trimspace(var.tag_project)]
-  tag_team_values        = [trimspace(var.tag_team)]
-  tag_owner_values       = [trimspace(var.tag_owner)]
-  tag_application_values = [trimspace(var.tag_application)]
+  tag_project_values     = can(jsondecode(var.tag_project)) ? jsondecode(var.tag_project) : [var.tag_project]
+  tag_team_values        = can(jsondecode(var.tag_team)) ? jsondecode(var.tag_team) : [var.tag_team]
+  tag_owner_values       = can(jsondecode(var.tag_owner)) ? jsondecode(var.tag_owner) : [var.tag_owner]
+  tag_application_values = can(jsondecode(var.tag_application)) ? jsondecode(var.tag_application) : [var.tag_application]
   tag_cost_center_values = [trimspace(var.tag_cost_center)]
 
   # Decode each escaped JSON string value → re-encode as clean compact JSON
