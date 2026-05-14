@@ -1,7 +1,7 @@
 variable "environment_type" {
-  type        = map(string)
-  description = "Restricted key-value: selected env key mapped to its full name. e.g. {prod = production}"
-  default     = {}
+  type        = string
+  description = "Selected environment key e.g. stg, prod, tb"
+  default     = "tb"
 }
 
 variable "app_details" {
