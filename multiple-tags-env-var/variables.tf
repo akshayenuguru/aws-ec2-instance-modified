@@ -1,3 +1,9 @@
+variable "environment_type" {
+  type        = map(string)
+  description = "Restricted key-value: selected env key mapped to its full name. e.g. {prod = production}"
+  default     = {}
+}
+
 variable "app_details" {
   type    = list(string)   # multiSelect=true → arrives as native list
   default = ["takedaproject", "envmgr", "india"]
