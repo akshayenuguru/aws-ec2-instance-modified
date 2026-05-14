@@ -35,7 +35,7 @@ locals {
   }
 
   environment_type_tags = {
-    environment_type = lookup(local.environment_type_map, trimspace(var.environment_type), var.environment_type)
+    environment_type = can(jsondecode(var.environment_type)) ? join(",", values(jsondecode(var.environment_type))) : lookup(local.environment_type_map, trimspace(var.environment_type), var.environment_type)
   }
 }
 
