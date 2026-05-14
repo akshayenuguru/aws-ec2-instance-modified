@@ -21,7 +21,7 @@ locals {
   tag_application_values = [trimspace(var.tag_application)]
   tag_cost_center_values = [trimspace(var.tag_cost_center)]
 
-  # Decode each value from the escaped JSON string → re-encode as clean compact JSON
+  # Decode each escaped JSON string value → re-encode as clean compact JSON
   tag_akshay_aws = {
     for k, v in var.tag_akshay : k => jsonencode(jsondecode(v))
   }
@@ -44,7 +44,7 @@ resource "aws_instance" "ubuntu" {
 
   tags = merge(
     {
-      Name        = var.name        # (or var.name1 for ubuntu-1)
+      Name        = var.name
       env         = "qa"
       email       = var.email
       project     = join(",", local.tag_project_values)
@@ -53,7 +53,7 @@ resource "aws_instance" "ubuntu" {
       cost_center = join(",", local.tag_cost_center_values)
       application = join(",", local.tag_application_values)
     },
-    local.tag_akshay_aws   # ← only key1, key3 as clean JSON string values
+    local.tag_akshay_aws
   )
 
   volume_tags = {
@@ -69,7 +69,7 @@ resource "aws_instance" "ubuntu-1" {
 
   tags = merge(
     {
-      Name        = var.name        # (or var.name1 for ubuntu-1)
+      Name        = var.name1
       env         = "qa"
       email       = var.email
       project     = join(",", local.tag_project_values)
@@ -78,7 +78,7 @@ resource "aws_instance" "ubuntu-1" {
       cost_center = join(",", local.tag_cost_center_values)
       application = join(",", local.tag_application_values)
     },
-    local.tag_akshay_aws   # ← only key1, key3 as clean JSON string values
+    local.tag_akshay_aws
   )
 
   volume_tags = {
