@@ -1,7 +1,6 @@
 variable "app_details" {
-  type        = string
-  description = "JSON-encoded string of list: [\"project\",\"env\",\"location\"]"
-  default     = "[\"takedaproject\",\"envmgr\",\"india\"]"
+  type    = list(string)   # multiSelect=true → arrives as native list
+  default = ["takedaproject", "envmgr", "india"]
 }
 
 variable "aws_region" {
