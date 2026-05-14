@@ -84,6 +84,6 @@ variable "tag_data_classification" {
 
 variable "environment_type" {
   type        = string
-  description = "Environment tier. Rafay: TF_VAR_environment_type. Single or multi-select restricted_key_values"
-  default     = "dev"
+  description = "Environment tier. Rafay: TF_VAR_environment_type."
+  default     = "prod"
 }
