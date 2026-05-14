@@ -13,19 +13,18 @@ locals {
   aws_region_value    = trimspace(var.aws_region)
   aws_region_az_value = trimspace(var.aws_region_az)
 
-  # app_details is now a native list — no jsondecode needed
   app_details_list = var.app_details
 
-  # tag_*: envVars, single value, plain string → use directly
   tag_project_values     = [trimspace(var.tag_project)]
   tag_team_values        = [trimspace(var.tag_team)]
   tag_owner_values       = [trimspace(var.tag_owner)]
   tag_application_values = [trimspace(var.tag_application)]
   tag_cost_center_values = [trimspace(var.tag_cost_center)]
 
-  # tag_akshay: valueType=json → arrives as native map(string) → use directly
-  tag_akshay_aws         = var.tag_akshay
-  tag_akshay_json_string = jsonencode(var.tag_akshay)
+  # Decode each value from the escaped JSON string → re-encode as clean compact JSON
+  tag_akshay_aws = {
+    for k, v in var.tag_akshay : k => jsonencode(jsondecode(v))
+  }
 }
 
 provider "aws" {
@@ -45,17 +44,16 @@ resource "aws_instance" "ubuntu" {
 
   tags = merge(
     {
-      Name           = var.name
-      env            = "qa"
-      email          = var.email
-      project        = join(",", local.tag_project_values)
-      team           = join(",", local.tag_team_values)
-      owner          = join(",", local.tag_owner_values)
-      cost_center    = join(",", local.tag_cost_center_values)
-      application    = join(",", local.tag_application_values)
-      tag_akshay_raw = local.tag_akshay_json_string
+      Name        = var.name        # (or var.name1 for ubuntu-1)
+      env         = "qa"
+      email       = var.email
+      project     = join(",", local.tag_project_values)
+      team        = join(",", local.tag_team_values)
+      owner       = join(",", local.tag_owner_values)
+      cost_center = join(",", local.tag_cost_center_values)
+      application = join(",", local.tag_application_values)
     },
-    local.tag_akshay_aws
+    local.tag_akshay_aws   # ← only key1, key3 as clean JSON string values
   )
 
   volume_tags = {
@@ -71,17 +69,16 @@ resource "aws_instance" "ubuntu-1" {
 
   tags = merge(
     {
-      Name           = var.name1
-      env            = "qa"
-      email          = var.email
-      project        = join(",", local.tag_project_values)
-      team           = join(",", local.tag_team_values)
-      owner          = join(",", local.tag_owner_values)
-      cost_center    = join(",", local.tag_cost_center_values)
-      application    = join(",", local.tag_application_values)
-      tag_akshay_raw = local.tag_akshay_json_string
+      Name        = var.name        # (or var.name1 for ubuntu-1)
+      env         = "qa"
+      email       = var.email
+      project     = join(",", local.tag_project_values)
+      team        = join(",", local.tag_team_values)
+      owner       = join(",", local.tag_owner_values)
+      cost_center = join(",", local.tag_cost_center_values)
+      application = join(",", local.tag_application_values)
     },
-    local.tag_akshay_aws
+    local.tag_akshay_aws   # ← only key1, key3 as clean JSON string values
   )
 
   volume_tags = {
