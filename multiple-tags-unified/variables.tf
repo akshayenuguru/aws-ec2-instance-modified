@@ -76,10 +76,10 @@ variable "tag_application" {
   default     = "app-payments"
 }
 
-variable "tag_cost_center" {
+variable "tag_data_classification" {
   type        = string
-  description = "Cost center tag. Rafay: TF_VAR_tag_cost_center. Single value only"
-  default     = "cc-eng-001"
+  description = "Data classification tag. Rafay: TF_VAR_tag_data_classification. Single value only"
+  default     = "internal"
 }
 
 variable "environment_type" {
