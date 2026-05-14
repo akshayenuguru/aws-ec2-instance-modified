@@ -25,9 +25,17 @@ locals {
     for k, v in var.tag_akshay : k => jsonencode(jsondecode(v))
   }
 
-  # environment_type: single select restricted_key_values → native map(string)
+  # Lookup map defined in code — Rafay sends only the key (e.g "stg"), not the resolved value
+  environment_type_map = {
+    prod = "production"
+    stg  = "staging"
+    dev  = "development"
+    qa   = "qa-testing"
+    tb   = "testbed"
+  }
+
   environment_type_tags = {
-    for k, v in var.environment_type : k => trimspace(v)
+    environment_type = lookup(local.environment_type_map, trimspace(var.environment_type), var.environment_type)
   }
 }
 
