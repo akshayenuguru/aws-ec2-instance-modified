@@ -13,8 +13,8 @@ locals {
   aws_region_value    = trimspace(var.aws_region)
   aws_region_az_value = trimspace(var.aws_region_az)
 
-  # app_details is now a native list(string) — no jsondecode needed
-  app_details_list = var.app_details
+  # app_details arrives as a JSON string — jsondecode IS needed
+  app_details_list = jsondecode(var.app_details)
 
   # tag_* vars are now native list(string) — no jsondecode needed
   tag_project_values     = var.tag_project
@@ -23,7 +23,7 @@ locals {
   tag_application_values = var.tag_application
   tag_cost_center_values = [var.tag_cost_center]
 
-  # tag_akshay is now a native map(string) — no jsondecode needed
+  # tag_akshay arrives as native map — no jsondecode needed
   tag_akshay_aws         = var.tag_akshay
   tag_akshay_json_string = jsonencode(var.tag_akshay)
 }
