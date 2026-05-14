@@ -43,7 +43,7 @@ variable "email" {
 variable "app_details" {
   type        = list(string)
   description = "App identity list: [project, env, location]. Rafay: restricted multiSelect"
-  default     = ["proj-alpha", "envmgr", "us-east"]
+  default     = ["takedaproject", "envmgr", "india"]
 }
 
 variable "cost_allocation_tags" {
