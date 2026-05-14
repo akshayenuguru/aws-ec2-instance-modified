@@ -1,7 +1,7 @@
-# valueType: "text" + multiSelect — arrives as JSON string, needs jsondecode in locals
 variable "app_details" {
-  type    = string
-  default = "[\"takedaproject\",\"envmgr\",\"india\"]"
+  type        = string
+  description = "JSON-encoded string of list: [\"project\",\"env\",\"location\"]"
+  default     = "[\"takedaproject\",\"envmgr\",\"india\"]"
 }
 
 variable "aws_region" {
@@ -40,19 +40,18 @@ variable "email" {
 }
 
 variable "tag_project" {
-  type        = list(string)
-  description = "List of project tag values"
-  default     = ["customer-takeda"]
+  type    = string
+  default = "customer-takeda"
 }
 
 variable "tag_team" {
-  type    = list(string)
-  default = ["qa-em"]
+  type    = string
+  default = "qa-em"
 }
 
 variable "tag_owner" {
-  type    = list(string)
-  default = ["em-akshay"]
+  type    = string
+  default = "em-akshay"
 }
 
 variable "tag_cost_center" {
@@ -61,12 +60,12 @@ variable "tag_cost_center" {
 }
 
 variable "tag_application" {
-  type    = list(string)
-  default = ["customer-onboarding"]
+  type    = string
+  default = "customer-onboarding"
 }
 
-# valueType: "json" — arrives as native map
 variable "tag_akshay" {
-  type    = map(string)
-  default = {}
+  type        = map(string)
+  description = "Resolved map from restrictedKeyValues: { key1 = jsonString, key2 = jsonString }"
+  default     = {}
 }
