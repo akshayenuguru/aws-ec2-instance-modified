@@ -31,7 +31,11 @@ locals {
   }
 
   environment_type_tags = {
-    environment_type = can(jsondecode(var.environment_type)) ? join(",", values(jsondecode(var.environment_type))) : lookup(local.environment_type_map, trimspace(var.environment_type), var.environment_type)
+    environment_type = can(jsondecode(var.environment_type)) ? (
+      can(keys(jsondecode(var.environment_type))) ?
+        join(",", values(jsondecode(var.environment_type))) :
+        join(",", [for k in jsondecode(var.environment_type) : lookup(local.environment_type_map, trimspace(k), k)])
+    ) : lookup(local.environment_type_map, trimspace(var.environment_type), var.environment_type)
   }
 
   cost_allocation_aws = {
