@@ -1,7 +1,7 @@
 variable "app_details" {
-  type        = string
-  description = "JSON array as a string: \"[\\\"a\\\",\\\"b\\\",\\\"c\\\"]\""
-  default     = "[\"takedaproject\",\"envmgr\",\"india\"]"
+  type        = list(string)
+  description = "List of app detail strings: [project, env, location]"
+  default     = ["takedaproject", "envmgr", "india"]
 }
 
 variable "aws_region" {
@@ -40,19 +40,19 @@ variable "email" {
 }
 
 variable "tag_project" {
-  type        = string
-  description = "Plain string OR JSON array string"
-  default     = "[\"customer-takeda\"]"
+  type        = list(string)
+  description = "List of project tag values"
+  default     = ["customer-takeda"]
 }
 
 variable "tag_team" {
-  type    = string
-  default = "[\"qa-em\"]"
+  type    = list(string)
+  default = ["qa-em"]
 }
 
 variable "tag_owner" {
-  type    = string
-  default = "[\"em-akshay\"]"
+  type    = list(string)
+  default = ["em-akshay"]
 }
 
 variable "tag_cost_center" {
@@ -61,12 +61,12 @@ variable "tag_cost_center" {
 }
 
 variable "tag_application" {
-  type    = string
-  default = "[\"customer-onboarding\"]"
+  type    = list(string)
+  default = ["customer-onboarding"]
 }
 
 variable "tag_akshay" {
-  type        = string
-  description = "JSON as a string: {}, {...}, or [{...},{...}]"
-  default     = "{}"
+  type        = map(string)
+  description = "Map of additional custom tags: { key1 = val1, key2 = val2 }"
+  default     = {}
 }
