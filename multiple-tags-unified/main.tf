@@ -21,7 +21,7 @@ locals {
   tag_team_values        = can(jsondecode(var.tag_team)) ? jsondecode(var.tag_team) : [var.tag_team]
   tag_owner_values       = can(jsondecode(var.tag_owner)) ? jsondecode(var.tag_owner) : [var.tag_owner]
   tag_application_values = can(jsondecode(var.tag_application)) ? jsondecode(var.tag_application) : [var.tag_application]
-  tag_cost_center_values = [trimspace(var.tag_cost_center)]
+  tag_data_classification_values = [trimspace(var.tag_data_classification)]
 
   environment_type_map = {
     prod = "production"
@@ -62,7 +62,7 @@ resource "aws_instance" "ubuntu" {
       project      = join(",", local.tag_project_values)
       team         = join(",", local.tag_team_values)
       owner        = join(",", local.tag_owner_values)
-      cost_center  = join(",", local.tag_cost_center_values)
+      data_classification = join(",", local.tag_data_classification_values)
       application  = join(",", local.tag_application_values)
     },
     local.environment_type_tags,
@@ -88,7 +88,7 @@ resource "aws_instance" "ubuntu-1" {
       project      = join(",", local.tag_project_values)
       team         = join(",", local.tag_team_values)
       owner        = join(",", local.tag_owner_values)
-      cost_center  = join(",", local.tag_cost_center_values)
+      data_classification = join(",", local.tag_data_classification_values)
       application  = join(",", local.tag_application_values)
     },
     local.environment_type_tags,
