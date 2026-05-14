@@ -1,7 +1,7 @@
+# valueType: "text" + multiSelect — arrives as JSON string, needs jsondecode in locals
 variable "app_details" {
-  type        = list(string)
-  description = "List of app detail strings: [project, env, location]"
-  default     = ["takedaproject", "envmgr", "india"]
+  type    = string
+  default = "[\"takedaproject\",\"envmgr\",\"india\"]"
 }
 
 variable "aws_region" {
@@ -65,8 +65,8 @@ variable "tag_application" {
   default = ["customer-onboarding"]
 }
 
+# valueType: "json" — arrives as native map
 variable "tag_akshay" {
-  type        = map(string)
-  description = "Map of additional custom tags: { key1 = val1, key2 = val2 }"
-  default     = {}
+  type    = map(string)
+  default = {}
 }
