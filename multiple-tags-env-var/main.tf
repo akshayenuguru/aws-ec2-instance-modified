@@ -21,9 +21,13 @@ locals {
   tag_application_values = can(jsondecode(var.tag_application)) ? jsondecode(var.tag_application) : [var.tag_application]
   tag_cost_center_values = [trimspace(var.tag_cost_center)]
 
-  # Decode each escaped JSON string value → re-encode as clean compact JSON
   tag_akshay_aws = {
     for k, v in var.tag_akshay : k => jsonencode(jsondecode(v))
+  }
+
+  # environment_type: single select restricted_key_values → native map(string)
+  environment_type_tags = {
+    for k, v in var.environment_type : k => trimspace(v)
   }
 }
 
@@ -53,7 +57,8 @@ resource "aws_instance" "ubuntu" {
       cost_center = join(",", local.tag_cost_center_values)
       application = join(",", local.tag_application_values)
     },
-    local.tag_akshay_aws
+    local.tag_akshay_aws,
+    local.environment_type_tags
   )
 
   volume_tags = {
@@ -78,7 +83,8 @@ resource "aws_instance" "ubuntu-1" {
       cost_center = join(",", local.tag_cost_center_values)
       application = join(",", local.tag_application_values)
     },
-    local.tag_akshay_aws
+    local.tag_akshay_aws,
+    local.environment_type_tags
   )
 
   volume_tags = {
