@@ -10,12 +10,10 @@ terraform {
 }
 
 locals {
-
   aws_region_value    = trimspace(var.aws_region)
   aws_region_az_value = trimspace(var.aws_region_az)
 
   app_details_list = var.app_details
-
 
   tag_project_values     = can(jsondecode(var.tag_project)) ? jsondecode(var.tag_project) : [var.tag_project]
   tag_team_values        = can(jsondecode(var.tag_team)) ? jsondecode(var.tag_team) : [var.tag_team]
@@ -37,8 +35,9 @@ locals {
     ) : lookup(local.environment_type_map, trimspace(var.environment_type), var.environment_type)
   }
 
-  cost_allocation_tag_value = join(",", values(var.cost_allocation_tags))
-
+  # cost_allocation_tags: map of selected keys → plain string values
+  # e.g. {"engineering": "ENG-001", "finance": "FIN-004"} → "ENG-001,FIN-004"
+  cost_allocation_tag_value = length(var.cost_allocation_tags) > 0 ? join(",", values(var.cost_allocation_tags)) : ""
 }
 
 provider "aws" {
@@ -58,17 +57,17 @@ resource "aws_instance" "ubuntu" {
 
   tags = merge(
     {
-      Name         = var.name
-      env          = "qa"
-      email        = var.email
-      project      = join(",", local.tag_project_values)
-      team         = join(",", local.tag_team_values)
-      owner        = join(",", local.tag_owner_values)
+      Name                = var.name
+      env                 = "qa"
+      email               = var.email
+      project             = join(",", local.tag_project_values)
+      team                = join(",", local.tag_team_values)
+      owner               = join(",", local.tag_owner_values)
       data_classification = join(",", local.tag_data_classification_values)
-      application  = join(",", local.tag_application_values)
-      cost_allocation = local.cost_allocation_tag_value  # "ENG-001,FIN-004"
+      application         = join(",", local.tag_application_values)
+      cost_allocation     = local.cost_allocation_tag_value
     },
-    local.environment_type_tags,
+    local.environment_type_tags
   )
 
   volume_tags = {
@@ -84,17 +83,17 @@ resource "aws_instance" "ubuntu-1" {
 
   tags = merge(
     {
-      Name         = var.name1
-      env          = "qa"
-      email        = var.email
-      project      = join(",", local.tag_project_values)
-      team         = join(",", local.tag_team_values)
-      owner        = join(",", local.tag_owner_values)
+      Name                = var.name1
+      env                 = "qa"
+      email               = var.email
+      project             = join(",", local.tag_project_values)
+      team                = join(",", local.tag_team_values)
+      owner               = join(",", local.tag_owner_values)
       data_classification = join(",", local.tag_data_classification_values)
-      application  = join(",", local.tag_application_values)
+      application         = join(",", local.tag_application_values)
+      cost_allocation     = local.cost_allocation_tag_value
     },
-    local.environment_type_tags,
-    local.cost_allocation_aws
+    local.environment_type_tags
   )
 
   volume_tags = {
