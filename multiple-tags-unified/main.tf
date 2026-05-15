@@ -66,9 +66,9 @@ resource "aws_instance" "ubuntu" {
       owner        = join(",", local.tag_owner_values)
       data_classification = join(",", local.tag_data_classification_values)
       application  = join(",", local.tag_application_values)
+      cost_allocation = local.cost_allocation_tag_value  # "ENG-001,FIN-004"
     },
     local.environment_type_tags,
-    local.cost_allocation_aws
   )
 
   volume_tags = {
