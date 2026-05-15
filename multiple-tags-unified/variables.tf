@@ -47,9 +47,8 @@ variable "app_details" {
 }
 
 variable "cost_allocation_tags" {
-  type        = map(string)
-  description = "Cost allocation tags. Rafay: restricted_key_values multiSelect. Each key maps to a JSON string of dept metadata"
-  default     = {}
+  type    = map(string)
+  default = {}
 }
 
 variable "tag_project" {
