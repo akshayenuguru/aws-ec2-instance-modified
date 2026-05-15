@@ -37,9 +37,8 @@ locals {
     ) : lookup(local.environment_type_map, trimspace(var.environment_type), var.environment_type)
   }
 
-  cost_allocation_aws = {
-    for k, v in var.cost_allocation_tags : k => jsonencode(jsondecode(v))
-  }
+  cost_allocation_tag_value = join(",", values(var.cost_allocation_tags))
+
 }
 
 provider "aws" {
